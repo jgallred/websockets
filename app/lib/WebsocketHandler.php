@@ -3,11 +3,6 @@
 use Ratchet\ConnectionInterface;
 use Ratchet\MessageComponentInterface;
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
  * Description of WebsocketHandler
  *
@@ -26,20 +21,25 @@ class WebsocketHandler implements MessageComponentInterface
     public function onClose(ConnectionInterface $conn)
     {
         $this->clients->detach($conn);
+        echo "Client closed\n";
     }
 
     public function onError(ConnectionInterface $conn, \Exception $e)
     {
         $conn->close();
+        echo "Client Errored\n";
         \Log::error($e->getMessage(), array('code' => $e->getCode(), 'trace' => $e->getTrace()));
     }
 
     public function onMessage(ConnectionInterface $from, $msg)
     {
-        foreach ($this->clients as $client) {
-            if ($from !== $client) {
-                // The sender is not the receiver, send to each client connected
-                $client->send($msg);
+        if ($msg !== 'listen') {
+            echo "Sending message to {$this->clients->count()} clients '$msg'\n";
+            foreach ($this->clients as $client) {
+//                if ($from !== $client) {
+                    // The sender is not the receiver, send to each client connected
+                    $client->send($msg);
+//                }
             }
         }
     }
@@ -47,5 +47,6 @@ class WebsocketHandler implements MessageComponentInterface
     public function onOpen(ConnectionInterface $conn)
     {
         $this->clients->attach($conn);
+        echo "Client Opened\n";
     }
 }

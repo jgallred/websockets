@@ -5,7 +5,7 @@
 	"license": "MIT",
 	"require": {
 		"laravel/framework": "4.0.*",
-        "cboden/Ratchet": "0.3.*"
+        "cboden/Ratchet": "0.2.*"
 	},
 	"autoload": {
 		"classmap": [
