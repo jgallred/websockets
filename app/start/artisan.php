@@ -11,3 +11,5 @@
 |
 */
 
+Artisan::add(new Websockets);
+Artisan::add(new WebsocketsServer);
