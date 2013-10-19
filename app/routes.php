@@ -13,5 +13,10 @@
 
 Route::get('/', function()
 {
+	return View::make('localClient');
+});
+
+Route::get('/client', function()
+{
 	return View::make('client');
 });
